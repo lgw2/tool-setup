@@ -32,7 +32,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-"save folds
+" save folds
 augroup AutoSaveFolds
     autocmd!
     autocmd BufWinLeave * mkview
@@ -41,12 +41,21 @@ augroup END
 
 " skeleton tex file
 augroup templates
+	autocmd!
 	autocmd BufNewFile *.tex r ~/.vim/skeletons/skeleton.tex
 augroup END
+
+" be able to compile, view, clear tex files
+augroup compile_tex
+	autocmd!
+	autocmd FileType tex nmap <buffer> <C-T> :!latexmk -pdf %<CR>
+	autocmd FileType tex nmap <buffer> T :!open -a Skim %:r.pdf<CR><CR>
+augroup end
 
 " allow colors for status bar
 set t_Co=256
 let g:airline_powerline_fonts = 1
+
 " use solarized dark theme
 let g:airline_theme = 'solarized'
 let g:airline_solarized_bg = 'dark'
